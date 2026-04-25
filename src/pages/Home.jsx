@@ -1,0 +1,173 @@
+import React from "react";
+import { FaArrowRight, FaTicketAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
+import busCat1 from "../assets/bus2.png";
+import busCat2 from "../assets/bus6.png";
+import busCat3 from "../assets/bus9.png";
+import heroBg from "../assets/bg1.jpg";
+import heroBus from "../assets/bus10.png";
+import { BUS_TYPES } from "../data/buses";
+import { useBooking } from "../context/BookingContext";
+
+const categories = [
+  { title: "City Express", image: busCat1 },
+  { title: "Luxury Coach", image: busCat2 },
+  { title: "Night Rider", image: busCat3 },
+];
+
+const offers = [
+  { code: "GTECH08", title: "Get up to 40% off on your booking", valid: "Valid till: 31st March" },
+  { code: "FIRST20", title: "20% discount for first-time users", valid: "Valid till: 15th April" },
+];
+
+const Home = () => {
+  const navigate = useNavigate();
+  const { trip, updateTrip } = useBooking();
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    navigate("/bus");
+  };
+
+  return (
+    <div className="w-full">
+      <section
+        className="relative min-h-[520px] overflow-hidden"
+        style={{ backgroundImage: `url(${heroBg})`, backgroundPosition: "center", backgroundSize: "cover" }}
+      >
+        <div className="absolute inset-0 bg-slate-950/70" />
+        <div className="section-wrap relative grid items-center gap-10 py-16 lg:grid-cols-2">
+          <div className="space-y-6">
+            <h1 className="text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+              Reserve Your <span className="text-violet-400">Bus Tickets</span> Now
+            </h1>
+            <p className="max-w-xl text-sm text-slate-200 sm:text-base">
+              Plan your trip in minutes. Choose routes, compare buses, pick your favorite seats, and
+              finish booking without leaving this app.
+            </p>
+            <button
+              onClick={() => navigate("/bus")}
+              className="inline-flex items-center gap-2 rounded-md bg-violet-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-violet-500"
+            >
+              Reserve Seat Now
+              <FaArrowRight className="text-xs" />
+            </button>
+          </div>
+
+          <div className="flex justify-center lg:justify-end">
+            <img src={heroBus} alt="Bus" className="w-full max-w-xl drop-shadow-[0_20px_50px_rgba(0,0,0,0.45)]" />
+          </div>
+        </div>
+      </section>
+
+      <section className="section-wrap relative -mt-12 pb-8">
+        <form
+          onSubmit={handleSearch}
+          className="grid gap-4 rounded-xl border border-slate-200/60 bg-white p-5 shadow-xl dark:border-slate-800 dark:bg-slate-900 md:grid-cols-5"
+        >
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">From</label>
+            <input
+              value={trip.from}
+              onChange={(event) => updateTrip({ from: event.target.value })}
+              placeholder="Select pickup"
+              className="input-core"
+              required
+            />
+          </div>
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">To</label>
+            <input
+              value={trip.to}
+              onChange={(event) => updateTrip({ to: event.target.value })}
+              placeholder="Select destination"
+              className="input-core"
+              required
+            />
+          </div>
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Date</label>
+            <input
+              type="date"
+              value={trip.date}
+              onChange={(event) => updateTrip({ date: event.target.value })}
+              className="input-core"
+              required
+            />
+          </div>
+          <div>
+            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Bus Type</label>
+            <select
+              value={trip.busType}
+              onChange={(event) => updateTrip({ busType: event.target.value })}
+              className="input-core"
+            >
+              {BUS_TYPES.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-semibold text-slate-600 dark:text-slate-300">Passengers</label>
+            <input
+              type="number"
+              value={trip.passengers}
+              onChange={(event) => updateTrip({ passengers: Math.max(1, Number(event.target.value) || 1) })}
+              min={1}
+              max={8}
+              className="input-core"
+            />
+            <button
+              type="submit"
+              className="mt-1 rounded-md bg-violet-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-violet-500"
+            >
+              Check Availability
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section className="section-wrap py-8">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Top Categories</h2>
+          <button onClick={() => navigate("/bus")} className="text-sm font-semibold text-violet-500 hover:text-violet-400">
+            View all
+          </button>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {categories.map((item) => (
+            <div key={item.title} className="card-core p-5">
+              <img src={item.image} alt={item.title} className="h-28 w-full object-contain" />
+              <h3 className="mt-4 text-sm font-semibold text-slate-900 dark:text-slate-100">{item.title}</h3>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-wrap pb-14 pt-6">
+        <h2 className="mb-4 text-xl font-bold text-slate-900 dark:text-slate-100">Special Offers</h2>
+        <div className="grid gap-4 md:grid-cols-2">
+          {offers.map((offer) => (
+            <article key={offer.code} className="card-core flex items-center gap-4 p-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-500">
+                <FaTicketAlt />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{offer.title}</p>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  <span className="font-semibold text-violet-500">{offer.code}</span> • {offer.valid}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Home;

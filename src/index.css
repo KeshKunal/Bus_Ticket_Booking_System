@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Manrope", sans-serif;
+}
+
+body {
+  @apply bg-slate-100 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200;
+}
+
+.section-wrap {
+  @apply mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8;
+}
+
+.card-core {
+  @apply rounded-xl border border-slate-200/70 bg-white shadow-md dark:border-slate-800 dark:bg-slate-900;
+}
+
+.input-core {
+  @apply w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-800 outline-none transition placeholder:text-slate-500 focus:border-violet-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:placeholder:text-slate-500;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 8px;
+  transition: all 0.5s ease-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+  border-radius: 8px;
+}
+
+
+
