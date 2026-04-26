@@ -9,7 +9,7 @@ const defaultTrip = {
   to: "",
   date: "",
   passengers: 1,
-  busType: "All",
+  busType: "Sleeper",
 };
 
 const defaultPassenger = {

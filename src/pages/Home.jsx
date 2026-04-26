@@ -1,5 +1,6 @@
 import React from "react";
 import { FaArrowRight, FaTicketAlt } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 import busCat1 from "../assets/bus2.png";
@@ -8,6 +9,7 @@ import busCat3 from "../assets/bus9.png";
 import heroBg from "../assets/bg1.jpg";
 import heroBus from "../assets/bus10.png";
 import { BUS_TYPES } from "../data/buses";
+import { MAJOR_INDIAN_CITIES } from "../data/cities";
 import { useBooking } from "../context/BookingContext";
 
 const categories = [
@@ -20,6 +22,69 @@ const offers = [
   { code: "GTECH08", title: "Get up to 40% off on your booking", valid: "Valid till: 31st March" },
   { code: "FIRST20", title: "20% discount for first-time users", valid: "Valid till: 15th April" },
 ];
+
+const CITY_RESULTS_LIMIT = 5;
+
+const CityAutocompleteField = ({ label, value, placeholder, onChange }) => {
+  const [open, setOpen] = React.useState(false);
+
+  const matches = React.useMemo(() => {
+    const query = value.trim().toLowerCase();
+
+    if (!query) {
+      return [];
+    }
+
+    return MAJOR_INDIAN_CITIES.filter((city) => city.toLowerCase().startsWith(query)).slice(0, CITY_RESULTS_LIMIT);
+  }, [value]);
+
+  const showDropdown = open && matches.length > 0;
+
+  const handleSelect = (city) => {
+    onChange(city);
+    setOpen(false);
+  };
+
+  return (
+    <div className="relative">
+      <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">{label}</label>
+      <input
+        value={value}
+        onChange={(event) => {
+          onChange(event.target.value);
+          setOpen(true);
+        }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => {
+          window.setTimeout(() => setOpen(false), 120);
+        }}
+        placeholder={placeholder}
+        className="input-core pr-4"
+        autoComplete="off"
+        required
+      />
+
+      {showDropdown ? (
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-xl border border-slate-700 bg-slate-900 shadow-2xl shadow-slate-950/40 dark:border-slate-700">
+          <div className="max-h-[15rem] overflow-y-auto py-1">
+            {matches.map((city) => (
+              <button
+                key={city}
+                type="button"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => handleSelect(city)}
+                className="flex w-full items-center justify-between px-4 py-3 text-left text-sm text-white transition hover:bg-violet-600"
+              >
+                <span>{city}</span>
+                <span className="text-xs text-slate-400">India</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 const Home = () => {
   const navigate = useNavigate();
@@ -66,26 +131,18 @@ const Home = () => {
           onSubmit={handleSearch}
           className="grid gap-4 rounded-xl border border-slate-200/60 bg-white p-5 shadow-xl dark:border-slate-800 dark:bg-slate-900 md:grid-cols-5"
         >
-          <div>
-            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">From</label>
-            <input
-              value={trip.from}
-              onChange={(event) => updateTrip({ from: event.target.value })}
-              placeholder="Select pickup"
-              className="input-core"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">To</label>
-            <input
-              value={trip.to}
-              onChange={(event) => updateTrip({ to: event.target.value })}
-              placeholder="Select destination"
-              className="input-core"
-              required
-            />
-          </div>
+          <CityAutocompleteField
+            label="From"
+            value={trip.from}
+            placeholder="Select pickup"
+            onChange={(from) => updateTrip({ from })}
+          />
+          <CityAutocompleteField
+            label="To"
+            value={trip.to}
+            placeholder="Select destination"
+            onChange={(to) => updateTrip({ to })}
+          />
           <div>
             <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Date</label>
             <input

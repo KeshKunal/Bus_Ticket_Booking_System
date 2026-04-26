@@ -5,13 +5,13 @@ import bus4 from "../assets/bus4.png";
 import bus5 from "../assets/bus5.png";
 import bus6 from "../assets/bus6.png";
 
-export const BUS_TYPES = ["All", "AC Sleeper", "Non-AC", "Luxury", "Seater"];
+export const BUS_TYPES = ["Sleeper", "Seater"];
 
 export const buses = [
   {
     id: "tourist-prime",
     name: "Tourist Bus Prime",
-    type: "Luxury",
+    type: "Seater",
     image: bus1,
     totalSeats: 40,
     rating: 4.6,
@@ -25,7 +25,7 @@ export const buses = [
   {
     id: "city-comfort",
     name: "Tourist Bus Comfort",
-    type: "AC Sleeper",
+    type: "Sleeper",
     image: bus2,
     totalSeats: 40,
     rating: 4.4,
@@ -53,7 +53,7 @@ export const buses = [
   {
     id: "intercity-blue",
     name: "Intercity Blue",
-    type: "Non-AC",
+    type: "Seater",
     image: bus4,
     totalSeats: 40,
     rating: 4.1,
@@ -67,7 +67,7 @@ export const buses = [
   {
     id: "red-express",
     name: "Red Express",
-    type: "AC Sleeper",
+    type: "Sleeper",
     image: bus5,
     totalSeats: 40,
     rating: 4.5,
@@ -81,7 +81,7 @@ export const buses = [
   {
     id: "metro-link",
     name: "Metro Link",
-    type: "Luxury",
+    type: "Sleeper",
     image: bus6,
     totalSeats: 40,
     rating: 4.7,

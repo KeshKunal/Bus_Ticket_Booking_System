@@ -13,7 +13,7 @@ const Bus = () => {
   const filtered = useMemo(
     () =>
       buses.filter((bus) => {
-        const byType = trip.busType === "All" || bus.type === trip.busType;
+        const byType = bus.type === trip.busType;
         const query = search.trim().toLowerCase();
         const bySearch =
           !query ||
