@@ -2,7 +2,7 @@ import React from "react";
 import { FaBars, FaPhone, FaXmark } from "react-icons/fa6";
 import { Link, NavLink } from "react-router-dom";
 
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/Logo_Beach.svg";
 import Theme from "../theme/Theme";
 
 const navLinks = [
