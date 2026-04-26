@@ -8,6 +8,8 @@ import About from "./pages/About";
 import Bus from "./pages/Bus";
 import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
+import History from "./pages/History";
+import Login from "./pages/Login";
 import SeatSelection from "./pages/SeatSelection";
 import Services from "./pages/Services";
 import Ticket from "./pages/Ticket";
@@ -30,10 +32,12 @@ function App() {
           <main className="pt-[76px]">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
               <Route path="/bus" element={<Bus />} />
               <Route path="/bus/:busId" element={<SeatSelection />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/ticket" element={<Ticket />} />
+              <Route path="/history" element={<History />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="*" element={<NotFoundPage />} />

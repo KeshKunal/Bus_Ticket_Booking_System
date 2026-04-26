@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -7,8 +7,14 @@ import { useBooking } from "../context/BookingContext";
 
 const Bus = () => {
   const navigate = useNavigate();
-  const { buses, chooseBus, trip, updateTrip } = useBooking();
+  const { buses, chooseBus, trip, updateTrip, loading, error, searchBuses } = useBooking();
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (buses.length === 0 && trip.from && trip.to && trip.date) {
+      searchBuses();
+    }
+  }, [buses.length, trip.from, trip.to, trip.date]);
 
   const filtered = useMemo(
     () =>
@@ -61,9 +67,21 @@ const Bus = () => {
         </select>
       </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
         <div className="card-core p-8 text-center">
-          <p className="text-sm text-slate-600 dark:text-slate-300">No buses match your filter.</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300">Loading buses...</p>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="card-core p-8 text-center">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {error || "No buses match your filter. Try a new search."}
+          </p>
+          <button
+            onClick={searchBuses}
+            className="mt-4 rounded-md bg-violet-600 px-4 py-2 text-sm font-semibold text-white"
+          >
+            Refresh Search
+          </button>
         </div>
       ) : (
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -76,9 +94,21 @@ const Bus = () => {
               <div className="h-[170px] bg-slate-100/70 p-3 dark:bg-slate-900/40">
                 <img src={bus.image} alt={bus.name} className="h-full w-full object-contain" />
               </div>
-              <div className="flex items-center justify-between p-4">
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Tourist Bus</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{bus.totalSeats} Passengers</p>
+              <div className="space-y-2 p-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{bus.name}</h3>
+                  <span className="rounded-full bg-violet-500/10 px-2 py-1 text-xs font-semibold text-violet-500">
+                    {bus.type}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {bus.from} - {bus.to}
+                </p>
+                <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
+                  <span>Depart: {bus.departAt}</span>
+                  <span>Arrive: {bus.arriveAt}</span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{bus.totalSeats} Seats</p>
               </div>
             </article>
           ))}

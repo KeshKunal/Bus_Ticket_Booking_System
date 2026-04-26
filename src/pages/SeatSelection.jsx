@@ -29,22 +29,23 @@ const buildSleeperRows = (totalSeats) => {
   });
 };
 
-const getSeatMeta = (seatNo, activeBus, isSelected, isBooked) => {
-  const tax = Math.round(activeBus.price * 0.18);
-  const baseFare = activeBus.price - tax;
+const getSeatMeta = (seatData, activeBus, isSelected, isBooked) => {
+  const fare = seatData?.fare || 0;
+  const tax = Math.round(fare * 0.18);
+  const baseFare = fare - tax;
 
   return {
-    seatNo,
-    seatType: activeBus.type,
+    seatNo: seatData?.seat_number ?? "-",
+    seatType: seatData?.seat_type || activeBus.type,
     baseFare,
     tax,
-    totalFare: activeBus.price,
+    totalFare: fare,
     status: isBooked ? "Booked" : isSelected ? "Selected" : "Available",
   };
 };
 
-const SeatHoverCard = ({ seatNo, activeBus, isSelected, isBooked }) => {
-  const meta = getSeatMeta(seatNo, activeBus, isSelected, isBooked);
+const SeatHoverCard = ({ seatData, activeBus, isSelected, isBooked }) => {
+  const meta = getSeatMeta(seatData, activeBus, isSelected, isBooked);
 
   return (
     <div className="pointer-events-none absolute left-1/2 top-full z-30 mt-2 hidden w-52 -translate-x-1/2 rounded-2xl border border-violet-400/30 bg-slate-950/95 p-3 text-xs text-slate-100 shadow-2xl shadow-slate-950/60 ring-1 ring-white/5 group-hover:block">
@@ -80,8 +81,8 @@ const SeatHoverCard = ({ seatNo, activeBus, isSelected, isBooked }) => {
   );
 };
 
-const SeatTile = ({ seatNo, activeBus, selectedSeats, toggleSeat }) => {
-  const isBooked = activeBus.bookedSeats.includes(seatNo);
+const SeatTile = ({ seatNo, seatData, activeBus, selectedSeats, toggleSeat }) => {
+  const isBooked = !seatData?.is_available;
   const isSelected = selectedSeats.includes(seatNo);
 
   return (
@@ -99,7 +100,7 @@ const SeatTile = ({ seatNo, activeBus, selectedSeats, toggleSeat }) => {
       >
         {seatNo}
       </button>
-      <SeatHoverCard seatNo={seatNo} activeBus={activeBus} isSelected={isSelected} isBooked={isBooked} />
+      <SeatHoverCard seatData={seatData} activeBus={activeBus} isSelected={isSelected} isBooked={isBooked} />
     </div>
   );
 };
@@ -107,7 +108,17 @@ const SeatTile = ({ seatNo, activeBus, selectedSeats, toggleSeat }) => {
 const SeatSelection = () => {
   const navigate = useNavigate();
   const { busId } = useParams();
-  const { buses, selectedBus, chooseBus, selectedSeats, toggleSeat, totalPrice, trip } = useBooking();
+  const {
+    buses,
+    selectedBus,
+    chooseBus,
+    selectedSeats,
+    toggleSeat,
+    totalPrice,
+    trip,
+    loadSeats,
+    seatsForSelectedBus,
+  } = useBooking();
 
   useEffect(() => {
     if (!selectedBus && busId) {
@@ -117,6 +128,16 @@ const SeatSelection = () => {
       }
     }
   }, [busId, buses, chooseBus, selectedBus]);
+
+  useEffect(() => {
+    if (selectedBus?.id) {
+      loadSeats(selectedBus.id);
+      return;
+    }
+    if (busId) {
+      loadSeats(busId);
+    }
+  }, [selectedBus, busId, loadSeats]);
 
   const activeBus = useMemo(() => {
     if (selectedBus) {
@@ -213,6 +234,11 @@ const SeatSelection = () => {
           </div>
 
           <div className="p-5 sm:p-6">
+            {Object.keys(seatsForSelectedBus).length === 0 ? (
+              <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs text-slate-500 dark:border-slate-800 dark:bg-slate-950/40">
+                Loading seats for this schedule. If this takes too long, refresh the page.
+              </div>
+            ) : null}
             <div className="mb-4 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">
               <span>{isSleeper ? "Sleeper Coach" : "Seater Coach"}</span>
               <span>Tap a seat to select</span>
@@ -249,6 +275,7 @@ const SeatSelection = () => {
                           <SeatTile
                             key={seatNo}
                             seatNo={seatNo}
+                            seatData={seatsForSelectedBus[seatNo]}
                             activeBus={activeBus}
                             selectedSeats={selectedSeats}
                             toggleSeat={toggleSeat}
@@ -263,6 +290,7 @@ const SeatSelection = () => {
                           <SeatTile
                             key={seatNo}
                             seatNo={seatNo}
+                            seatData={seatsForSelectedBus[seatNo]}
                             activeBus={activeBus}
                             selectedSeats={selectedSeats}
                             toggleSeat={toggleSeat}
@@ -291,6 +319,7 @@ const SeatSelection = () => {
                           <SeatTile
                             key={seatNo}
                             seatNo={seatNo}
+                            seatData={seatsForSelectedBus[seatNo]}
                             activeBus={activeBus}
                             selectedSeats={selectedSeats}
                             toggleSeat={toggleSeat}
@@ -303,6 +332,7 @@ const SeatSelection = () => {
                           <SeatTile
                             key={seatNo}
                             seatNo={seatNo}
+                            seatData={seatsForSelectedBus[seatNo]}
                             activeBus={activeBus}
                             selectedSeats={selectedSeats}
                             toggleSeat={toggleSeat}
@@ -326,7 +356,7 @@ const SeatSelection = () => {
                 <FaCircle className="text-xs text-violet-500" /> Selected
               </p>
               <p className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-800 dark:bg-slate-950/40">
-                <FaCircle className="text-xs text-violet-500" /> Rs. {activeBus.price}
+                <FaCircle className="text-xs text-violet-500" /> Fare varies by seat
               </p>
             </div>
 

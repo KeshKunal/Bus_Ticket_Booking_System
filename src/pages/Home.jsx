@@ -25,7 +25,7 @@ const offers = [
 
 const CITY_RESULTS_LIMIT = 5;
 
-const CityAutocompleteField = ({ label, value, placeholder, onChange }) => {
+const CityAutocompleteField = ({ label, value, placeholder, onChange, options }) => {
   const [open, setOpen] = React.useState(false);
 
   const matches = React.useMemo(() => {
@@ -35,8 +35,10 @@ const CityAutocompleteField = ({ label, value, placeholder, onChange }) => {
       return [];
     }
 
-    return MAJOR_INDIAN_CITIES.filter((city) => city.toLowerCase().startsWith(query)).slice(0, CITY_RESULTS_LIMIT);
-  }, [value]);
+    return (options || [])
+      .filter((city) => city.toLowerCase().startsWith(query))
+      .slice(0, CITY_RESULTS_LIMIT);
+  }, [value, options]);
 
   const showDropdown = open && matches.length > 0;
 
@@ -88,10 +90,12 @@ const CityAutocompleteField = ({ label, value, placeholder, onChange }) => {
 
 const Home = () => {
   const navigate = useNavigate();
-  const { trip, updateTrip } = useBooking();
+  const { trip, updateTrip, locations, searchBuses } = useBooking();
+  const cityOptions = locations.length > 0 ? locations : MAJOR_INDIAN_CITIES;
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
+    await searchBuses();
     navigate("/bus");
   };
 
@@ -136,12 +140,14 @@ const Home = () => {
             value={trip.from}
             placeholder="Select pickup"
             onChange={(from) => updateTrip({ from })}
+            options={cityOptions}
           />
           <CityAutocompleteField
             label="To"
             value={trip.to}
             placeholder="Select destination"
             onChange={(to) => updateTrip({ to })}
+            options={cityOptions}
           />
           <div>
             <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Date</label>

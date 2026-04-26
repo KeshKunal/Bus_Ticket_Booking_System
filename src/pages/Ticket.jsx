@@ -5,9 +5,9 @@ import { useBooking } from "../context/BookingContext";
 
 const Ticket = () => {
   const navigate = useNavigate();
-  const { trip, selectedBus, selectedSeats, passenger, totalPrice, clearBooking } = useBooking();
+  const { trip, selectedBus, selectedSeats, passengerDetails, totalPrice, clearBooking, bookingSummary, user } = useBooking();
 
-  if (!selectedBus || selectedSeats.length === 0) {
+  if (!selectedBus || selectedSeats.length === 0 || !bookingSummary) {
     return (
       <section className="section-wrap py-16 text-center">
         <p className="text-sm text-slate-600 dark:text-slate-300">No booking found. Please start again.</p>
@@ -31,10 +31,10 @@ const Ticket = () => {
 
         <div className="mt-6 grid gap-4 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
           <p>
-            Passenger: <span className="font-semibold text-slate-900 dark:text-slate-100">{passenger.fullName || "N/A"}</span>
+            Passenger Count: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedSeats.length}</span>
           </p>
           <p>
-            Email: <span className="font-semibold text-slate-900 dark:text-slate-100">{passenger.email || "N/A"}</span>
+            Email: <span className="font-semibold text-slate-900 dark:text-slate-100">{user?.email || "N/A"}</span>
           </p>
           <p>
             Route: <span className="font-semibold text-slate-900 dark:text-slate-100">{trip.from || selectedBus.from} to {trip.to || selectedBus.to}</span>
@@ -48,6 +48,17 @@ const Ticket = () => {
           <p>
             Seat Numbers: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedSeats.join(", ")}</span>
           </p>
+        </div>
+
+        <div className="mt-6 rounded-lg border border-slate-200 p-4 dark:border-slate-700">
+          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Passenger List</p>
+          <div className="mt-3 grid gap-2 text-sm text-slate-600 dark:text-slate-300 sm:grid-cols-2">
+            {selectedSeats.map((seatNo) => (
+              <p key={seatNo}>
+                Seat {seatNo}: <span className="font-semibold text-slate-900 dark:text-slate-100">{passengerDetails[seatNo]?.name || "N/A"}</span>
+              </p>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 rounded-lg border border-slate-200 p-4 dark:border-slate-700">

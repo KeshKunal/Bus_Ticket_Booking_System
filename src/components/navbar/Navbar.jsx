@@ -4,16 +4,19 @@ import { Link, NavLink } from "react-router-dom";
 
 import Logo from "../../assets/Logo_Beach.svg";
 import Theme from "../theme/Theme";
+import { useBooking } from "../../context/BookingContext";
 
 const navLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/bus", label: "Bus" },
     { href: "/services", label: "Services" },
+    { href: "/history", label: "History" },
 ];
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false);
+    const { user } = useBooking();
 
     const closeMenu = () => setOpen(false);
 
@@ -58,6 +61,13 @@ const Navbar = () => {
                     </ul>
 
                     <div className="mt-4 flex items-center gap-4 lg:mt-0 lg:ml-8">
+                        <Link
+                            to="/login"
+                            onClick={closeMenu}
+                            className="rounded-md border border-violet-500/40 px-3 py-2 text-xs font-semibold text-violet-500"
+                        >
+                            {user?.user_id ? "Switch User" : "Login"}
+                        </Link>
                         <div className="relative rounded-md bg-violet-600 py-2 pl-8 pr-5 text-white">
                             <span className="absolute -left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-violet-600 text-xs shadow-sm dark:border-slate-950">
                                 <FaPhone />
