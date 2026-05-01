@@ -2,10 +2,10 @@ import React from "react";
 
 const services = [
   "Real-time bus listing and filtering",
-  "Interactive seat selection",
-  "Passenger detail capture",
-  "Fare summary and booking confirmation",
-  "Dark and light theme support",
+  "Interactive seat selection with live availability",
+  "Passenger detail capture per seat",
+  "Secure payment flow with instant ticket",
+  "Booking history and account access",
 ];
 
 const Services = () => {

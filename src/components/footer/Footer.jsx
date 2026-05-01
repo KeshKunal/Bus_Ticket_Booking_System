@@ -28,7 +28,7 @@ const Footer = () => {
           <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
             {links.about.map((item) => (
               <li key={item}>
-                <Link to="/about" className="transition hover:text-violet-500">
+                <Link to="/about" className="transition hover:text-teal-600">
                   {item}
                 </Link>
               </li>
@@ -41,7 +41,7 @@ const Footer = () => {
           <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
             {links.services.map((item) => (
               <li key={item}>
-                <Link to="/services" className="transition hover:text-violet-500">
+                <Link to="/services" className="transition hover:text-teal-600">
                   {item}
                 </Link>
               </li>

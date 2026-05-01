@@ -10,6 +10,7 @@ import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
 import History from "./pages/History";
 import Login from "./pages/Login";
+import Payment from "./pages/Payment";
 import SeatSelection from "./pages/SeatSelection";
 import Services from "./pages/Services";
 import Ticket from "./pages/Ticket";
@@ -27,7 +28,7 @@ function App() {
   return (
     <Router>
       <BookingProvider>
-        <div className="min-h-screen bg-slate-100 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-200">
+        <div className="min-h-screen bg-transparent text-slate-800 transition-colors duration-300 dark:text-slate-200">
           <Navbar />
           <main className="pt-[76px]">
             <Routes>
@@ -36,6 +37,7 @@ function App() {
               <Route path="/bus" element={<Bus />} />
               <Route path="/bus/:busId" element={<SeatSelection />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment" element={<Payment />} />
               <Route path="/ticket" element={<Ticket />} />
               <Route path="/history" element={<History />} />
               <Route path="/about" element={<About />} />

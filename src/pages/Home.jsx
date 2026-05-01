@@ -1,6 +1,5 @@
 import React from "react";
 import { FaArrowRight, FaTicketAlt } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 import busCat1 from "../assets/bus2.png";

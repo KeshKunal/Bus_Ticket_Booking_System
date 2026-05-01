@@ -14,7 +14,7 @@ const Bus = () => {
     if (buses.length === 0 && trip.from && trip.to && trip.date) {
       searchBuses();
     }
-  }, [buses.length, trip.from, trip.to, trip.date]);
+  }, [buses.length, searchBuses, trip.from, trip.to, trip.date]);
 
   const filtered = useMemo(
     () =>
@@ -23,8 +23,9 @@ const Bus = () => {
         const query = search.trim().toLowerCase();
         const bySearch =
           !query ||
-          bus.name.toLowerCase().includes(query) || 
+          bus.name.toLowerCase().includes(query) ||
           bus.type.toLowerCase().includes(query) ||
+          bus.coach.toLowerCase().includes(query) ||
           bus.from.toLowerCase().includes(query) ||
           bus.to.toLowerCase().includes(query);
 

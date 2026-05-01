@@ -17,8 +17,12 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await loginUser(form);
-    navigate("/bus");
+    try {
+      await loginUser(form);
+      navigate("/bus");
+    } catch (err) {
+      // Error state is handled in context.
+    }
   };
 
   return (

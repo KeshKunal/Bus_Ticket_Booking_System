@@ -43,7 +43,7 @@ const History = () => {
         <p className="text-sm text-slate-600 dark:text-slate-300">Please login to view booking history.</p>
         <button
           onClick={() => navigate("/login")}
-          className="mt-4 rounded-md bg-violet-600 px-4 py-2 text-sm font-semibold text-white"
+          className="mt-4 rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white"
         >
           Go to Login
         </button>
@@ -74,7 +74,7 @@ const History = () => {
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {row.origin_city} - {row.destination_city}
                 </h2>
-                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-500">
+                <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600">
                   {row.status}
                 </span>
               </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { FaCircle, FaStar } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useBooking } from "../context/BookingContext";
@@ -153,7 +153,7 @@ const SeatSelection = () => {
       <section className="section-wrap py-16 text-center">
         <p className="text-sm text-slate-600 dark:text-slate-300">Please choose a bus first.</p>
         <button
-          className="mt-3 rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white"
+          className="mt-3 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white"
           onClick={() => navigate("/bus")}
         >
           Go to Bus List
@@ -253,7 +253,7 @@ const SeatSelection = () => {
             <div className="rounded-[28px] border border-slate-200 bg-slate-50 p-4 shadow-inner dark:border-slate-800 dark:bg-slate-950/40">
               <div className="mb-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-800 dark:bg-slate-900">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-violet-500">Front</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-500">Front</p>
                   <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Driver cabin</p>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">

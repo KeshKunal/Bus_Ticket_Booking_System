@@ -25,7 +25,7 @@ const Checkout = () => {
       <section className="section-wrap py-16 text-center">
         <p className="text-sm text-slate-600 dark:text-slate-300">Please select a bus and seats before checkout.</p>
         <button
-          className="mt-3 rounded-md bg-violet-600 px-4 py-2 text-sm font-medium text-white"
+          className="mt-3 rounded-md bg-teal-600 px-4 py-2 text-sm font-medium text-white"
           onClick={() => navigate("/bus")}
         >
           Choose Bus
@@ -36,6 +36,30 @@ const Checkout = () => {
 
   const from = trip.from || selectedBus.from;
   const to = trip.to || selectedBus.to;
+
+  React.useEffect(() => {
+    if (!user.user_id) {
+      return;
+    }
+
+    const next = {};
+
+    if (!passenger.fullName && (user.full_name || user.username)) {
+      next.fullName = user.full_name || user.username;
+    }
+
+    if (!passenger.email && user.email) {
+      next.email = user.email;
+    }
+
+    if (!passenger.phone && user.phone) {
+      next.phone = user.phone;
+    }
+
+    if (Object.keys(next).length > 0) {
+      updatePassenger(next);
+    }
+  }, [passenger.email, passenger.fullName, passenger.phone, updatePassenger, user.email, user.full_name, user.phone, user.user_id, user.username]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,7 +78,7 @@ const Checkout = () => {
               <button
                 type="button"
                 onClick={() => navigate("/login")}
-                className="ml-3 rounded-md bg-amber-500 px-3 py-1 text-xs font-semibold text-white"
+                className="ml-3 rounded-md bg-teal-600 px-3 py-1 text-xs font-semibold text-white"
               >
                 Go to Login
               </button>
@@ -80,7 +104,7 @@ const Checkout = () => {
               value={passenger.email}
               onChange={(event) => updatePassenger({ email: event.target.value })}
             />
-            <p className="mt-1 text-xs text-slate-500">Use your login email for consistency.</p>
+            <p className="mt-1 text-xs text-slate-500">We will send your ticket to this email.</p>
           </div>
 
           <div>
@@ -169,7 +193,7 @@ const Checkout = () => {
             disabled={!user.user_id || loading}
             className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-teal-600 px-5 py-3 text-base font-semibold text-white transition hover:bg-teal-500"
           >
-            {loading ? "Processing..." : "Proceed to Pay"}
+            {loading ? "Processing..." : "Continue to Payment"}
             <FaArrowRight className="text-sm" />
           </button>
           {error ? <p className="mt-3 text-sm text-red-500">{error}</p> : null}
