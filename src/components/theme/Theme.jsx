@@ -26,7 +26,7 @@ const Theme = () => {
     return (
         <button
             onClick={() => setTheme((prev) => (prev === "dark" ? "light" : "dark"))}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-700 transition hover:bg-violet-500 hover:text-white dark:bg-slate-800 dark:text-slate-100"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-slate-700 transition hover:bg-teal-500 hover:text-white dark:bg-slate-800 dark:text-slate-100"
             aria-label="Switch theme"
             title="Switch theme"
         >

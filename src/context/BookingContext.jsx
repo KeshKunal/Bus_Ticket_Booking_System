@@ -11,7 +11,7 @@ const defaultTrip = {
   to: "",
   date: "",
   passengers: 1,
-  busType: "Sleeper",
+  busType: "All",
 };
 
 const defaultPassenger = {
@@ -23,6 +23,7 @@ const defaultPassenger = {
 
 const defaultUser = {
   user_id: null,
+  username: "",
   full_name: "",
   email: "",
   phone: "",
@@ -46,6 +47,25 @@ const imageForType = (type) => {
   }
 
   return seater?.image || staticBuses[0]?.image || "";
+};
+
+const normalizeBusType = (busType) => {
+  const value = String(busType || "").toLowerCase();
+  return value.includes("sleeper") ? "Sleeper" : "Seater";
+};
+
+const sortSeatKeys = (a, b) => {
+  const cleanA = String(a);
+  const cleanB = String(b);
+  const prefixA = cleanA.match(/^[A-Za-z]+/)?.[0] || "";
+  const prefixB = cleanB.match(/^[A-Za-z]+/)?.[0] || "";
+  if (prefixA !== prefixB) {
+    return prefixA.localeCompare(prefixB);
+  }
+
+  const numberA = Number.parseInt(cleanA.replace(/\D+/g, ""), 10) || 0;
+  const numberB = Number.parseInt(cleanB.replace(/\D+/g, ""), 10) || 0;
+  return numberA - numberB;
 };
 
 const loadStoredUser = () => {
@@ -112,7 +132,7 @@ export const BookingProvider = ({ children }) => {
         return prev;
       }
 
-      return [...prev, seatNo].sort((a, b) => a - b);
+      return [...prev, seatNo].sort(sortSeatKeys);
     });
   };
 
@@ -142,9 +162,14 @@ export const BookingProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      setUser(data);
-      window.localStorage.setItem("btbs_user", JSON.stringify(data));
-      return data;
+      const enriched = {
+        ...defaultUser,
+        ...data,
+        username: data.username || payload.username || "",
+      };
+      setUser(enriched);
+      window.localStorage.setItem("btbs_user", JSON.stringify(enriched));
+      return enriched;
     } catch (err) {
       setError("Unable to login. Please try again.");
       throw err;
@@ -191,18 +216,23 @@ export const BookingProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      const mapped = data.map((row) => ({
-        id: String(row.schedule_id),
-        name: `Bus ${row.bus_number}`,
-        type: row.bus_type || "Seater",
-        image: imageForType(row.bus_type),
-        totalSeats: row.capacity,
-        rating: 4.4,
-        from: row.origin_city,
-        to: row.destination_city,
-        departAt: formatTime(row.departure_time),
-        arriveAt: formatTime(row.arrival_time),
-      }));
+      const mapped = data.map((row) => {
+        const normalizedType = normalizeBusType(row.bus_type);
+        return {
+          id: String(row.schedule_id),
+          name: row.bus_type || `Bus ${row.bus_number}`,
+          coach: row.bus_type || normalizedType,
+          type: normalizedType,
+          number: row.bus_number,
+          image: imageForType(normalizedType),
+          totalSeats: row.capacity,
+          rating: 4.4,
+          from: row.origin_city,
+          to: row.destination_city,
+          departAt: formatTime(row.departure_time),
+          arriveAt: formatTime(row.arrival_time),
+        };
+      });
 
       setBuses(mapped);
       return mapped;
@@ -227,7 +257,7 @@ export const BookingProvider = ({ children }) => {
       }
       const data = await response.json();
       const mapped = data.reduce((acc, seat) => {
-        const seatNumber = Number(seat.seat_number) || seat.seat_number;
+        const seatNumber = String(seat.seat_number);
         acc[seatNumber] = {
           seat_id: seat.seat_id,
           seat_number: seatNumber,

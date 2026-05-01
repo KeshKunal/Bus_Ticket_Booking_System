@@ -16,7 +16,8 @@ const navLinks = [
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false);
-    const { user } = useBooking();
+    const { user, logoutUser } = useBooking();
+    const displayName = user?.username || user?.full_name || "";
 
     const closeMenu = () => setOpen(false);
 
@@ -49,8 +50,8 @@ const Navbar = () => {
                                     className={({ isActive }) =>
                                         `text-sm font-semibold transition ${
                                             isActive
-                                                ? "text-violet-500"
-                                                : "text-slate-600 hover:text-violet-500 dark:text-slate-300 dark:hover:text-violet-400"
+                                                ? "text-teal-600"
+                                                : "text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-300"
                                         }`
                                     }
                                 >
@@ -61,18 +62,34 @@ const Navbar = () => {
                     </ul>
 
                     <div className="mt-4 flex items-center gap-4 lg:mt-0 lg:ml-8">
-                        <Link
-                            to="/login"
-                            onClick={closeMenu}
-                            className="rounded-md border border-violet-500/40 px-3 py-2 text-xs font-semibold text-violet-500"
-                        >
-                            {user?.user_id ? "Switch User" : "Login"}
-                        </Link>
-                        <div className="relative rounded-md bg-violet-600 py-2 pl-8 pr-5 text-white">
-                            <span className="absolute -left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-violet-600 text-xs shadow-sm dark:border-slate-950">
+                        {user?.user_id ? (
+                            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                                <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                                {displayName || "Signed in"}
+                                <button
+                                    onClick={() => {
+                                        logoutUser();
+                                        closeMenu();
+                                    }}
+                                    className="ml-2 rounded-full border border-teal-500/40 px-2 py-0.5 text-[10px] font-semibold text-teal-600"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        ) : (
+                            <Link
+                                to="/login"
+                                onClick={closeMenu}
+                                className="rounded-md border border-teal-500/40 px-3 py-2 text-xs font-semibold text-teal-600"
+                            >
+                                Login
+                            </Link>
+                        )}
+                        <div className="relative rounded-md bg-teal-600 py-2 pl-8 pr-5 text-white">
+                            <span className="absolute -left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border-4 border-white bg-teal-600 text-xs shadow-sm dark:border-slate-950">
                                 <FaPhone />
                             </span>
-                            <p className="text-[10px] uppercase tracking-wide text-violet-100">Contact Us</p>
+                            <p className="text-[10px] uppercase tracking-wide text-teal-100">Contact Us</p>
                             <p className="text-xs font-semibold">+91 1234567890</p>
                         </div>
                         <Theme />

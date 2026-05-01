@@ -5,7 +5,7 @@ import bus4 from "../assets/bus4.png";
 import bus5 from "../assets/bus5.png";
 import bus6 from "../assets/bus6.png";
 
-export const BUS_TYPES = ["Sleeper", "Seater"];
+export const BUS_TYPES = ["All", "Sleeper", "Seater"];
 
 export const buses = [
   {

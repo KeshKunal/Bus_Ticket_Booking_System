@@ -75,7 +75,7 @@ const CityAutocompleteField = ({ label, value, placeholder, onChange, options })
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => handleSelect(city)}
-                className="flex w-full items-center justify-between px-4 py-3 text-left text-sm text-white transition hover:bg-violet-600"
+                className="flex w-full items-center justify-between px-4 py-3 text-left text-sm text-white transition hover:bg-teal-600"
               >
                 <span>{city}</span>
                 <span className="text-xs text-slate-400">India</span>
@@ -105,11 +105,11 @@ const Home = () => {
         className="relative min-h-[520px] overflow-hidden"
         style={{ backgroundImage: `url(${heroBg})`, backgroundPosition: "center", backgroundSize: "cover" }}
       >
-        <div className="absolute inset-0 bg-slate-950/70" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/75 to-slate-900/65" />
         <div className="section-wrap relative grid items-center gap-10 py-16 lg:grid-cols-2">
           <div className="space-y-6">
             <h1 className="text-4xl font-extrabold leading-tight text-white sm:text-5xl">
-              Reserve Your <span className="text-violet-400">Bus Tickets</span> Now
+              Reserve Your <span className="text-amber-300">Bus Tickets</span> in Minutes
             </h1>
             <p className="max-w-xl text-sm text-slate-200 sm:text-base">
               Plan your trip in minutes. Choose routes, compare buses, pick your favorite seats, and
@@ -117,7 +117,7 @@ const Home = () => {
             </p>
             <button
               onClick={() => navigate("/bus")}
-              className="inline-flex items-center gap-2 rounded-md bg-violet-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-violet-500"
+              className="inline-flex items-center gap-2 rounded-md bg-teal-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-teal-500"
             >
               Reserve Seat Now
               <FaArrowRight className="text-xs" />
@@ -185,7 +185,7 @@ const Home = () => {
             />
             <button
               type="submit"
-              className="mt-1 rounded-md bg-violet-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-violet-500"
+              className="mt-1 rounded-md bg-teal-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-teal-500"
             >
               Check Availability
             </button>
@@ -196,7 +196,7 @@ const Home = () => {
       <section className="section-wrap py-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Top Categories</h2>
-          <button onClick={() => navigate("/bus")} className="text-sm font-semibold text-violet-500 hover:text-violet-400">
+          <button onClick={() => navigate("/bus")} className="text-sm font-semibold text-teal-600 hover:text-teal-500">
             View all
           </button>
         </div>
@@ -216,13 +216,13 @@ const Home = () => {
         <div className="grid gap-4 md:grid-cols-2">
           {offers.map((offer) => (
             <article key={offer.code} className="card-core flex items-center gap-4 p-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-violet-500/40 bg-violet-500/10 text-violet-500">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-amber-500/40 bg-amber-500/10 text-amber-600">
                 <FaTicketAlt />
               </div>
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{offer.title}</p>
                 <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
-                  <span className="font-semibold text-violet-500">{offer.code}</span> • {offer.valid}
+                  <span className="font-semibold text-amber-600">{offer.code}</span> • {offer.valid}
                 </p>
               </div>
             </article>

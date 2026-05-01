@@ -16,7 +16,6 @@ const Checkout = () => {
     user,
     passengerDetails,
     updatePassengerDetail,
-    bookSeats,
     loading,
     error,
   } = useBooking();
@@ -38,12 +37,9 @@ const Checkout = () => {
   const from = trip.from || selectedBus.from;
   const to = trip.to || selectedBus.to;
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    const result = await bookSeats();
-    if (result) {
-      navigate("/ticket");
-    }
+    navigate("/payment");
   };
 
   return (
@@ -163,7 +159,7 @@ const Checkout = () => {
                 Total No. of Seat <span className="float-right font-semibold text-slate-800 dark:text-slate-100">{selectedSeats.length}</span>
               </p>
               <p>
-                Total Amount <span className="float-right text-xl font-bold text-violet-400">Rs. {totalPrice}</span>
+                Total Amount <span className="float-right text-xl font-bold text-amber-600">Rs. {totalPrice}</span>
               </p>
             </div>
           </article>
@@ -171,7 +167,7 @@ const Checkout = () => {
           <button
             onClick={handleSubmit}
             disabled={!user.user_id || loading}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-violet-600 px-5 py-3 text-base font-semibold text-white transition hover:bg-violet-500"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-teal-600 px-5 py-3 text-base font-semibold text-white transition hover:bg-teal-500"
           >
             {loading ? "Processing..." : "Proceed to Pay"}
             <FaArrowRight className="text-sm" />
