@@ -149,13 +149,12 @@ const Home = () => {
             options={cityOptions}
           />
           <div>
-            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Date</label>
+            <label className="mb-2 block text-xs font-semibold text-slate-600 dark:text-slate-300">Date (Optional)</label>
             <input
               type="date"
               value={trip.date}
               onChange={(event) => updateTrip({ date: event.target.value })}
               className="input-core"
-              required
             />
           </div>
           <div>

@@ -197,7 +197,7 @@ export const BookingProvider = ({ children }) => {
   };
 
   const searchBuses = async () => {
-    if (!trip.from || !trip.to || !trip.date) {
+    if (!trip.from || !trip.to) {
       return [];
     }
 
@@ -208,8 +208,13 @@ export const BookingProvider = ({ children }) => {
       const params = new URLSearchParams({
         origin: trip.from,
         destination: trip.to,
-        date: trip.date,
       });
+      
+      // Only add date if it's provided and not empty
+      if (trip.date && trip.date.trim()) {
+        params.append('date', trip.date);
+      }
+      
       const response = await fetch(`${API_URL}/search?${params.toString()}`);
       if (!response.ok) {
         throw new Error("Failed to search buses");

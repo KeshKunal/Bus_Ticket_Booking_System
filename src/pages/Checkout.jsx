@@ -61,6 +61,15 @@ const Checkout = () => {
     }
   }, [passenger.email, passenger.fullName, passenger.phone, updatePassenger, user.email, user.full_name, user.phone, user.user_id, user.username]);
 
+  // Initialize sex field with default value for all selected seats
+  React.useEffect(() => {
+    selectedSeats.forEach((seatNo) => {
+      if (!passengerDetails[seatNo]?.sex) {
+        updatePassengerDetail(seatNo, { sex: "M" });
+      }
+    });
+  }, [selectedSeats, passengerDetails, updatePassengerDetail]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate("/payment");

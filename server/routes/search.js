@@ -15,13 +15,12 @@ router.get("/locations", async (_req, res) => {
 router.get("/search", async (req, res) => {
   const { origin, destination, date } = req.query || {};
 
-  if (!origin || !destination || !date) {
-    return res.status(400).json({ error: "Origin, destination, and date are required." });
+  if (!origin || !destination) {
+    return res.status(400).json({ error: "Origin and destination are required." });
   }
 
   try {
-    const [rows] = await pool.query(
-      `
+    let query = `
       SELECT
         s.schedule_id,
         s.departure_time,
@@ -38,11 +37,19 @@ router.get("/search", async (req, res) => {
       JOIN locations d ON s.destination_id = d.location_id
       WHERE o.city_name = ?
         AND d.city_name = ?
-        AND DATE(s.departure_time) = ?
-      ORDER BY s.departure_time ASC
-      `,
-      [origin, destination, date],
-    );
+    `;
+    
+    const params = [origin, destination];
+    
+    // Only filter by date if provided and not empty
+    if (date && date.trim()) {
+      query += ` AND DATE(s.departure_time) = ?`;
+      params.push(date);
+    }
+    
+    query += ` ORDER BY s.departure_time ASC`;
+
+    const [rows] = await pool.query(query, params);
 
     return res.json(rows);
   } catch (error) {

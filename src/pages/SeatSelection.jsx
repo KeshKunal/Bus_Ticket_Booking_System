@@ -366,7 +366,7 @@ const SeatSelection = () => {
                     {seaterRows.map((row, index) => (
                       <div
                         key={index}
-                        className="grid grid-cols-[repeat(4,minmax(0,1fr))_1.75rem_repeat(4,minmax(0,1fr))] gap-2.5"
+                        className="grid grid-cols-[repeat(2,minmax(0,1fr))_1.75rem_repeat(2,minmax(0,1fr))] gap-2.5"
                       >
                         {row.left.map((seat) => (
                           <SeatTile

@@ -11,10 +11,10 @@ const Bus = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    if (buses.length === 0 && trip.from && trip.to && trip.date) {
+    if (buses.length === 0 && trip.from && trip.to) {
       searchBuses();
     }
-  }, [buses.length, searchBuses, trip.from, trip.to, trip.date]);
+  }, [buses.length, searchBuses, trip.from, trip.to]);
 
   const filtered = useMemo(
     () =>
@@ -72,16 +72,31 @@ const Bus = () => {
         <div className="card-core p-8 text-center">
           <p className="text-sm text-slate-600 dark:text-slate-300">Loading buses...</p>
         </div>
+      ) : buses.length === 0 ? (
+        <div className="card-core p-8 text-center">
+          <p className="text-sm text-slate-600 dark:text-slate-300">
+            {error || "No buses available for the selected route and date."}
+          </p>
+          <button
+            onClick={() => navigate("/")}
+            className="mt-4 rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white"
+          >
+            Search Again
+          </button>
+        </div>
       ) : filtered.length === 0 ? (
         <div className="card-core p-8 text-center">
           <p className="text-sm text-slate-600 dark:text-slate-300">
-            {error || "No buses match your filter. Try a new search."}
+            No buses match your filter. Try adjusting your search or bus type.
           </p>
           <button
-            onClick={searchBuses}
+            onClick={() => {
+              setSearch("");
+              updateTrip({ busType: "All" });
+            }}
             className="mt-4 rounded-md bg-teal-600 px-4 py-2 text-sm font-semibold text-white"
           >
-            Refresh Search
+            Clear Filters
           </button>
         </div>
       ) : (
