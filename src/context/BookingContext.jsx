@@ -23,9 +23,8 @@ const defaultPassenger = {
 
 const defaultUser = {
   user_id: null,
-  username: "",
-  full_name: "",
   email: "",
+  full_name: "",
   phone: "",
 };
 
@@ -157,21 +156,22 @@ export const BookingProvider = ({ children }) => {
         body: JSON.stringify(payload),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error(data.error || "Login failed");
       }
 
-      const data = await response.json();
       const enriched = {
         ...defaultUser,
         ...data,
-        username: data.username || payload.username || "",
       };
       setUser(enriched);
       window.localStorage.setItem("btbs_user", JSON.stringify(enriched));
       return enriched;
     } catch (err) {
-      setError("Unable to login. Please try again.");
+      const errorMessage = err.message || "Unable to login. Please try again.";
+      setError(errorMessage);
       throw err;
     } finally {
       setLoading(false);
@@ -223,6 +223,12 @@ export const BookingProvider = ({ children }) => {
       const data = await response.json();
       const mapped = data.map((row) => {
         const normalizedType = normalizeBusType(row.bus_type);
+        const departureDate = row.departure_time ? new Date(row.departure_time).toLocaleDateString("en-IN", { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        }) : "";
+        
         return {
           id: String(row.schedule_id),
           name: row.bus_type || `Bus ${row.bus_number}`,
@@ -236,6 +242,9 @@ export const BookingProvider = ({ children }) => {
           to: row.destination_city,
           departAt: formatTime(row.departure_time),
           arriveAt: formatTime(row.arrival_time),
+          date: departureDate,
+          departure_time: row.departure_time,
+          arrival_time: row.arrival_time,
         };
       });
 

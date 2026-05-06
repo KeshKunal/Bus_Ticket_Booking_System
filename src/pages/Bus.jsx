@@ -118,6 +118,11 @@ const Bus = () => {
                   </span>
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400">{bus.from} - {bus.to}</p>
+                {bus.date && (
+                  <p className="text-xs font-semibold text-teal-600 dark:text-teal-400">
+                    📅 {bus.date}
+                  </p>
+                )}
                 <p className="text-xs text-slate-500 dark:text-slate-400">Coach: {bus.coach}</p>
                 <div className="flex items-center justify-between text-sm text-slate-600 dark:text-slate-300">
                   <span>Depart: {bus.departAt}</span>

@@ -37,13 +37,25 @@ const Ticket = () => {
             Email: <span className="font-semibold text-slate-900 dark:text-slate-100">{user?.email || "N/A"}</span>
           </p>
           <p>
+            Phone: <span className="font-semibold text-slate-900 dark:text-slate-100">{user?.phone || "N/A"}</span>
+          </p>
+          <p>
             Route: <span className="font-semibold text-slate-900 dark:text-slate-100">{trip.from || selectedBus.from} to {trip.to || selectedBus.to}</span>
           </p>
           <p>
             Bus: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedBus.name}</span>
           </p>
           <p>
-            Travel Date: <span className="font-semibold text-slate-900 dark:text-slate-100">{trip.date || "Not selected"}</span>
+            Bus Number: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedBus.number}</span>
+          </p>
+          <p>
+            Travel Date: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedBus.date || trip.date || "Not available"}</span>
+          </p>
+          <p>
+            Departure Time: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedBus.departAt}</span>
+          </p>
+          <p>
+            Arrival Time: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedBus.arriveAt}</span>
           </p>
           <p>
             Seat Numbers: <span className="font-semibold text-slate-900 dark:text-slate-100">{selectedSeats.join(", ")}</span>
@@ -60,22 +72,6 @@ const Ticket = () => {
             ))}
           </div>
         </div>
-
-        {bookingSummary?.bookings?.length ? (
-          <div className="mt-6 rounded-lg border border-slate-200 p-4 dark:border-slate-700">
-            <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Booking References</p>
-            <div className="mt-3 flex flex-wrap gap-2 text-sm">
-              {bookingSummary.bookings.map((booking) => (
-                <span
-                  key={booking.booking_id}
-                  className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-emerald-700"
-                >
-                  #{booking.booking_id}
-                </span>
-              ))}
-            </div>
-          </div>
-        ) : null}
 
         <div className="mt-6 rounded-lg border border-slate-200 p-4 dark:border-slate-700">
           <p className="text-sm text-slate-500 dark:text-slate-400">Total Paid</p>

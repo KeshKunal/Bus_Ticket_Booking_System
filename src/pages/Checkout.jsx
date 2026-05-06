@@ -10,8 +10,6 @@ const Checkout = () => {
     trip,
     selectedBus,
     selectedSeats,
-    passenger,
-    updatePassenger,
     totalPrice,
     user,
     passengerDetails,
@@ -37,31 +35,6 @@ const Checkout = () => {
   const from = trip.from || selectedBus.from;
   const to = trip.to || selectedBus.to;
 
-  React.useEffect(() => {
-    if (!user.user_id) {
-      return;
-    }
-
-    const next = {};
-
-    if (!passenger.fullName && (user.full_name || user.username)) {
-      next.fullName = user.full_name || user.username;
-    }
-
-    if (!passenger.email && user.email) {
-      next.email = user.email;
-    }
-
-    if (!passenger.phone && user.phone) {
-      next.phone = user.phone;
-    }
-
-    if (Object.keys(next).length > 0) {
-      updatePassenger(next);
-    }
-  }, [passenger.email, passenger.fullName, passenger.phone, updatePassenger, user.email, user.full_name, user.phone, user.user_id, user.username]);
-
-  // Initialize sex field with default value for all selected seats
   React.useEffect(() => {
     selectedSeats.forEach((seatNo) => {
       if (!passengerDetails[seatNo]?.sex) {
@@ -94,46 +67,14 @@ const Checkout = () => {
             </div>
           ) : null}
 
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Primary Contact</label>
-            <input
-              className="input-core"
-              placeholder="e.g. G-Tech Official"
-              value={passenger.fullName}
-              onChange={(event) => updatePassenger({ fullName: event.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
-            <input
-              type="email"
-              className="input-core"
-              placeholder="e.g. example@mail.com"
-              value={passenger.email}
-              onChange={(event) => updatePassenger({ email: event.target.value })}
-            />
-            <p className="mt-1 text-xs text-slate-500">We will send your ticket to this email.</p>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Phone</label>
-            <input
-              className="input-core"
-              placeholder="e.g. +91 12345 67890"
-              value={passenger.phone}
-              onChange={(event) => updatePassenger({ phone: event.target.value })}
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-300">Alternative Phone</label>
-            <input
-              className="input-core"
-              placeholder="e.g. +91 98765 43210"
-              value={passenger.altPhone}
-              onChange={(event) => updatePassenger({ altPhone: event.target.value })}
-            />
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-950/40">
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300">Contact Information</h3>
+            <div className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <p><span className="font-semibold">Name:</span> {user.full_name || "Not provided"}</p>
+              <p><span className="font-semibold">Email:</span> {user.email || "Not provided"}</p>
+              <p><span className="font-semibold">Phone:</span> {user.phone || "Not provided"}</p>
+            </div>
+            <p className="mt-2 text-xs text-slate-500">Ticket confirmation will be sent to your email and phone.</p>
           </div>
 
           <div className="space-y-4">
