@@ -2,6 +2,20 @@
 
 A modern, responsive full-stack bus ticket booking application built with **React**, **Vite**, **Tailwind CSS**, and **Express.js**. This system allows users to search for buses, select seats, book tickets, process payments, and manage their booking history.
 
+## Project Screenshots & Diagrams
+
+Thumbnail previews of key UI screens and database diagrams are included below — images are stored in `public/images/`.
+
+| Preview | File |
+|---:|:---|
+| ![Bus Selection](public/images/bus_selection.png) | `bus_selection.png` |
+| ![Seat Selection](public/images/seat_selection.png) | `seat_selection.png` |
+| ![Ticket Page](public/images/ticket_page.png) | `ticket_page.png` |
+| ![Payment](public/images/payment.png) | `payment.png` |
+| ![ER Diagram](public/images/er_diagram.png) | `er_diagram.png` |
+| ![Relational Schema](public/images/relational_schema.png) | `relational_schema.png` |
+
+
 ---
 
 ## 📋 Table of Contents
@@ -438,7 +452,23 @@ GET  /api/payments/:id     # Get payment status
 
 ## 🗄️ Database Schema
 
-### Users Table
+The database schema for this project is shown below. Click the images or open the files in `public/images/` to view full-resolution diagrams.
+
+### ER Diagram
+
+![ER Diagram](public/images/er_diagram.png)
+
+ER diagram showing entities and relationships between `users`, `buses`, `bookings`, `passengers`, and `payments`.
+
+### Relational Schema
+
+![Relational Schema](public/images/relational_schema.png)
+
+Relational schema showing primary keys (PK) and foreign keys (FK) for each table.
+
+### Table Definitions
+
+#### Users Table
 
 ```sql
 - user_id (PK, Auto-increment)
@@ -449,7 +479,7 @@ GET  /api/payments/:id     # Get payment status
 - created_at
 ```
 
-### Buses Table
+#### Buses Table
 
 ```sql
 - bus_id (PK, Auto-increment)
@@ -465,7 +495,7 @@ GET  /api/payments/:id     # Get payment status
 - amenities
 ```
 
-### Bookings Table
+#### Bookings Table
 
 ```sql
 - booking_id (PK, Auto-increment)
@@ -478,7 +508,7 @@ GET  /api/payments/:id     # Get payment status
 - confirmation_number
 ```
 
-### Passengers Table
+#### Passengers Table
 
 ```sql
 - passenger_id (PK, Auto-increment)
@@ -489,7 +519,7 @@ GET  /api/payments/:id     # Get payment status
 - seat_number
 ```
 
-### Payments Table
+#### Payments Table
 
 ```sql
 - payment_id (PK, Auto-increment)
@@ -571,73 +601,14 @@ EXPOSE 5000 3000
 CMD ["npm", "run", "server"]
 ```
 
-### Environment Setup for Production
-
-- Use environment variables from your hosting provider
-- Enable SSL for database connections
-- Use strong database passwords
-- Implement HTTPS
-- Set up proper CORS policies
-
----
-
-## 📋 Checklist for Getting Started
-
-- [ ] Node.js and npm installed
-- [ ] MySQL installed and running
-- [ ] Repository cloned
-- [ ] Dependencies installed (`npm install`)
-- [ ] `.env` file created with credentials
-- [ ] Database initialized
-- [ ] Backend server running (`npm run server`)
-- [ ] Frontend dev server running (`npm run dev`)
-- [ ] Application accessible at `http://localhost:5173`
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Code Standards
-
-- Follow the existing code style
-- Use meaningful variable and function names
-- Add comments for complex logic
-- Test your changes before submitting
-- Keep commits atomic and descriptive
-
----
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
+This project is licensed under the MIT License
 ---
 
-## 📞 Support
 
-For issues, questions, or suggestions:
 
-- Open an issue on GitHub
-- Check existing documentation in `ENV_SETUP_GUIDE.md` and `PROJECT_OVERVIEW.md`
-- Review the backend API route files in `server/routes/`
 
----
-
-## 🔒 Security Notes
-
-- Never commit `.env` files to version control
-- Use strong, unique passwords for production databases
-- Enable SSL for production database connections
-- Implement proper authentication and authorization
-- Keep dependencies updated
-- Regular security audits recommended
-
----
 
 **Happy Booking! 🚌✨**
