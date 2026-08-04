@@ -1,21 +1,66 @@
 # Bus Ticket Booking System
 
-A modern, responsive full-stack bus ticket booking application built with **React**, **Vite**, **Tailwind CSS**, and **Express.js**. This system allows users to search for buses, select seats, book tickets, process payments, and manage their booking history.
+A modern, responsive full-stack bus ticket booking application built with **React**, **Vite**, **Tailwind CSS**, and **Express.js**. Use this repo to run the app locally, inspect UI screenshots, or review the database diagrams in `public/images/`.
 
 ## Project Screenshots & Diagrams
 
-Thumbnail previews of key UI screens and database diagrams are included below — images are stored in `public/images/`.
+Browse the key screens and diagrams below (files are in `public/images/`):
 
-| Preview | File |
-|---:|:---|
-| ![Bus Selection](public/images/bus_selection.png) | `bus_selection.png` |
-| ![Seat Selection](public/images/seat_selection.png) | `seat_selection.png` |
-| ![Ticket Page](public/images/ticket_page.png) | `ticket_page.png` |
-| ![Payment](public/images/payment.png) | `payment.png` |
-| ![ER Diagram](public/images/er_diagram.png) | `er_diagram.png` |
-| ![Relational Schema](public/images/relational_schema.png) | `relational_schema.png` |
+- ![Bus Selection](public/images/bus_selection.png)
+  -  Bus listing and selection view.
+- ![Seat Selection](public/images/seat_selection.png)
+  -  Interactive seat selection UI.
+- ![Ticket Page](public/images/ticket_page.png)
+  -  Booking confirmation / e-ticket view.
+- ![Payment](public/images/payment.png)
+  -  Checkout and payment screen.
+- ![ER Diagram](public/images/er_diagram.png)
+  -  Entity-relationship diagram for the database.
+- ![Relational Schema](public/images/relational_schema.png)
+  -  Relational schema showing PK/FK relations.
 
+---
 
+## Quick start
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Run backend and frontend (two terminals):
+
+```bash
+# Terminal 1 - backend
+npm run server
+
+# Terminal 2 - frontend
+npm run dev
+```
+
+Open http://localhost:5173 in your browser.
+
+## Configuration
+
+Create a `.env` (see `ENV_SETUP_GUIDE.md`) with DB and server settings. The app reads `VITE_API_URL` for the backend base URL.
+
+## Project (short)
+
+- Frontend: `src/` (React + Vite + Tailwind)
+- Backend: `server/` (Express routes in `server/routes/`)
+- Static assets & diagrams: `public/images/`
+
+## API (short)
+
+All backend endpoints live under `server/` — notable routes:
+
+- `server/routes/auth.js` — authentication
+- `server/routes/search.js` — bus search
+- `server/routes/seats.js` — seat availability
+- `server/routes/booking.js` — booking operations
+
+---
 ---
 
 ## 📋 Table of Contents
@@ -34,7 +79,6 @@ Thumbnail previews of key UI screens and database diagrams are included below �
 - [Database Schema](#database-schema)
 - [Theme & Styling](#theme--styling)
 - [Build & Deployment](#build--deployment)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
